@@ -19,13 +19,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Kopplar variabler mot widgets
         Button search = findViewById(R.id.search_button);
         whatToSearchFor = findViewById(R.id.input_name);
-        search.setOnClickListener(new View.OnClickListener() {
+
+        search.setOnClickListener(new View.OnClickListener() { // Listner för sök knapp
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, ProfilePage.class);
-                whatToSearchForString = whatToSearchFor.getText().toString();
+                Intent intent = new Intent(MainActivity.this, ProfilePage.class); // Skapar intent till profilsida
+                whatToSearchForString = whatToSearchFor.getText().toString(); // Ger variabeln texten från EditText fält
+
+                // Startar intent och skickar med extras datan
                 intent.putExtra("name", whatToSearchForString);
                 startActivity(intent);
             }

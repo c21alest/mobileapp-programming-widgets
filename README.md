@@ -1,42 +1,52 @@
 
 # Rapport
 
-**Skriv din rapport här!**
+**Assignment 3: Widgets**
 
-_Du kan ta bort all text som finns sedan tidigare_.
+## Startsida:
 
-## Följande grundsyn gäller dugga-svar:
+När applikationen startas visas ett fält där användaren kan skriva in ett namn och sedan klicka på en sök knapp. Detta är två olika widgets som
+är inlagda i XML filen layout, dessa har sedan egen styling och id som syns i bild nedan. När man klickar på denna knapp triggas en
+eventlistner som i sin tur skapar en intent, denna packar ihop texten från _EditText_ fältet, sedan skickas allt detta till nästa
+intent som är profil sidan, koden för detta syns nedan.
 
-- Ett kortfattat svar är att föredra. Svar som är längre än en sida text (skärmdumpar och programkod exkluderat) är onödigt långt.
-- Svaret skall ha minst en snutt programkod.
-- Svaret skall inkludera en kort övergripande förklarande text som redogör för vad respektive snutt programkod gör eller som svarar på annan teorifråga.
-- Svaret skall ha minst en skärmdump. Skärmdumpar skall illustrera exekvering av relevant programkod. Eventuell text i skärmdumpar måste vara läsbar.
-- I de fall detta efterfrågas, dela upp delar av ditt svar i för- och nackdelar. Dina för- respektive nackdelar skall vara i form av punktlistor med kortare stycken (3-4 meningar).
-
-Programkod ska se ut som exemplet nedan. Koden måste vara korrekt indenterad då den blir lättare att läsa vilket gör det lättare att hitta syntaktiska fel.
+<img src="startsida.png" width="40%">
 
 ```
-function errorCallback(error) {
-    switch(error.code) {
-        case error.PERMISSION_DENIED:
-            // Geolocation API stöds inte, gör något
-            break;
-        case error.POSITION_UNAVAILABLE:
-            // Misslyckat positionsanrop, gör något
-            break;
-        case error.UNKNOWN_ERROR:
-            // Okänt fel, gör något
-            break;
+// Kopplar variabler mot widgets
+Button search = findViewById(R.id.search_button);
+whatToSearchFor = findViewById(R.id.input_name);
+
+search.setOnClickListener(new View.OnClickListener() { // Listner för sök knapp
+    @Override
+    public void onClick(View view) {
+        Intent intent = new Intent(MainActivity.this, ProfilePage.class); // Skapar intent till profilsida
+        whatToSearchForString = whatToSearchFor.getText().toString(); // Ger variabeln texten från EditText fält
+
+        // Startar intent och skickar med extras datan
+        intent.putExtra("name", whatToSearchForString);
+        startActivity(intent);
     }
-}
+});
 ```
 
-Bilder läggs i samma mapp som markdown-filen.
+Efter detta kommer man till profil sidan. Så fort den öppnas (skapas) så sätts texten för text rutan till det värdet som skickas med
+från tidigare intent, detta görs genom en bundle som syns i kod nedan. Slutligen sätts även bilden för profilbilden.
 
-![](android.png)
+<img src="profil.png" width="40%">
 
-Läs gärna:
+```
+// Kopplar variabler mot widgets
+TextView person = findViewById(R.id.person_field);
+ImageView ProfilePicture = findViewById(R.id.imageView);
 
-- Boulos, M.N.K., Warren, J., Gong, J. & Yue, P. (2010) Web GIS in practice VIII: HTML5 and the canvas element for interactive online mapping. International journal of health geographics 9, 14. Shin, Y. &
-- Wunsche, B.C. (2013) A smartphone-based golf simulation exercise game for supporting arthritis patients. 2013 28th International Conference of Image and Vision Computing New Zealand (IVCNZ), IEEE, pp. 459–464.
-- Wohlin, C., Runeson, P., Höst, M., Ohlsson, M.C., Regnell, B., Wesslén, A. (2012) Experimentation in Software Engineering, Berlin, Heidelberg: Springer Berlin Heidelberg.
+Bundle extras = getIntent().getExtras(); // Skapar bundle med tidigare extras från intent
+// Om det finns ett värde i extras (bundle) blir detta värdet för TextView
+if (extras != null) {
+    String name = extras.getString("name");
+    person.setText(name);
+}
+
+// Sätter profilbilden för ImageView widgeten
+ProfilePicture.setImageResource(R.drawable.ic_launcher_foreground);
+```
