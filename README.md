@@ -30,6 +30,8 @@ search.setOnClickListener(new View.OnClickListener() { // Listner för sök knap
 });
 ```
 
+## Profilsida:
+
 Efter detta kommer man till profil sidan. Så fort den öppnas (skapas) så sätts texten för text rutan till det värdet som skickas med
 från tidigare intent, detta görs genom en bundle som syns i kod nedan. Slutligen sätts även bilden för profilbilden.
 
