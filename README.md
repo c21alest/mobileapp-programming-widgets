@@ -1,7 +1,5 @@
 
-# Rapport
-
-**Assignment 3: Widgets**
+# Assignment 3: Widgets (Rapport)
 
 ## Startsida:
 
